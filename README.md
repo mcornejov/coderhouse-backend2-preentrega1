@@ -48,7 +48,7 @@ cp .env.example .env
 |----------|-------------|-------------|
 | `PORT` | Puerto donde escucha el servidor | Sí |
 | `NODE_ENV` | Entorno: `development`, `production` o `test` | Sí |
-| `MONGO_URL` | Cadena de conexión a MongoDB. Si está vacía, el servidor arranca sin base de datos (los datos viven en memoria) | No, por ahora |
+| `MONGO_URL` | Cadena de conexión a MongoDB. Si está vacía o no se puede conectar, el servidor arranca sin base de datos (los datos viven en memoria) | No, por ahora |
 | `JWT_SECRET` | Secreto para firmar tokens JWT (se usará en la autenticación) | No, por ahora |
 
 El archivo `.env` está excluido del repositorio mediante `.gitignore`; nunca se versionan
