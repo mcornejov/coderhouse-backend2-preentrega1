@@ -44,6 +44,12 @@ describe('Manejo de errores', () => {
     assert.equal(res.body.status, 'error');
   });
 
+  test('responde 400 si la URL tiene caracteres mal codificados', async () => {
+    const res = await request(app).get('/api/events/%E0%A4%A');
+    assert.equal(res.status, 400);
+    assert.equal(res.body.status, 'error');
+  });
+
   test('responde 400 si el body no es JSON válido', async () => {
     const res = await request(app)
       .post('/api/sessions/login')

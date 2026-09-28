@@ -22,7 +22,7 @@
   "license": "ISC",
   "packageManager": "pnpm@11.0.9",
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19.0"
   },
   "dependencies": {
     "dotenv": "^18.0.4",

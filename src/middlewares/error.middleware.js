@@ -12,6 +12,11 @@ export function errorHandler(error, req, res, next) {
     return res.status(400).json({ status: 'error', error: 'El cuerpo de la petición no es un JSON válido' });
   }
 
+  // Express lanza URIError al decodificar una URL con caracteres mal codificados
+  if (error instanceof URIError) {
+    return res.status(400).json({ status: 'error', error: 'La URL contiene caracteres mal codificados' });
+  }
+
   console.error(error);
   return res.status(500).json({ status: 'error', error: 'Error interno del servidor' });
 }

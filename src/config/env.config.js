@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
 // Carga las variables de entorno lo antes posible en el ciclo de vida de la app
-dotenv.config();
+dotenv.config({ quiet: true });
 
 // Variables obligatorias para que la aplicación pueda iniciar
 const REQUERIDAS = ['PORT', 'NODE_ENV'];
@@ -17,8 +17,15 @@ if (faltantes.length > 0) {
   process.exit(1);
 }
 
+const port = Number(process.env.PORT);
+
+if (!Number.isInteger(port) || port < 1 || port > 65535) {
+  console.error(`Error de configuración: PORT debe ser un entero entre 1 y 65535 (valor recibido: "${process.env.PORT}").`);
+  process.exit(1);
+}
+
 const config = {
-  port: Number(process.env.PORT),
+  port,
   nodeEnv: process.env.NODE_ENV,
   // Opcionales en esta etapa: se vuelven obligatorias cuando se integren Mongo y JWT
   mongoUrl: process.env.MONGO_URL || null,

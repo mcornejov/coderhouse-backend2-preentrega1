@@ -19,7 +19,7 @@ autenticación, eventos completos e inscripciones se incorpora en las próximas 
 
 | Tecnología | Uso |
 |------------|-----|
-| Node.js (>= 18) | Entorno de ejecución, módulos ESM |
+| Node.js (>= 20.19) | Entorno de ejecución, módulos ESM |
 | Express 5 | Servidor HTTP y enrutamiento |
 | dotenv | Variables de entorno |
 | Mongoose | Definición de modelos (`User`, `Event`); conexión opcional en esta etapa |
@@ -67,7 +67,7 @@ Con la configuración por defecto el servidor queda disponible en `http://localh
 ## Estructura de carpetas
 
 ```
-PreEntrega1/
+coderhouse-backend2-preentrega1/
 ├── src/
 │   ├── app.js                    # configura Express (middlewares y routers); no levanta el server
 │   ├── server.js                 # punto de entrada: conecta la base y levanta el servidor
@@ -131,8 +131,8 @@ Cliente → routes → controllers → services → repositories → dao → (mo
 | GET | `/api/sessions/current` | Usuario autenticado actual | `501` hasta implementar la autenticación |
 | POST | `/api/sessions/logout` | Cierre de sesión | `501` hasta implementar la autenticación |
 
-Cualquier ruta no definida responde `404` y un cuerpo JSON inválido responde `400`, ambos con el
-formato `{ "status": "error", "error": "..." }`.
+Cualquier ruta no definida responde `404`; un cuerpo JSON inválido o una URL mal codificada
+responden `400`. Todos los errores usan el formato `{ "status": "error", "error": "..." }`.
 
 ### Ejemplo
 
