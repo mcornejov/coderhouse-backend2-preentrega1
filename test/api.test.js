@@ -1,0 +1,55 @@
+import { test, describe } from 'node:test';
+import assert from 'node:assert/strict';
+import request from 'supertest';
+import app from '../src/app.js';
+
+describe('GET /api/health', () => {
+  test('responde 200 con el estado del servidor', async () => {
+    const res = await request(app).get('/api/health');
+    assert.equal(res.status, 200);
+    assert.deepEqual(res.body, { status: 'ok', message: 'Servidor activo' });
+  });
+});
+
+describe('GET /api/events', () => {
+  test('responde 200 con una lista vacía al inicio', async () => {
+    const res = await request(app).get('/api/events');
+    assert.equal(res.status, 200);
+    assert.deepEqual(res.body, { status: 'success', payload: [] });
+  });
+
+  test('responde 404 si el evento no existe', async () => {
+    const res = await request(app).get('/api/events/inexistente');
+    assert.equal(res.status, 404);
+    assert.equal(res.body.status, 'error');
+  });
+});
+
+describe('/api/sessions', () => {
+  test('las rutas existen y responden 501 hasta implementar la autenticación', async () => {
+    const register = await request(app).post('/api/sessions/register').send({});
+    const login = await request(app).post('/api/sessions/login').send({});
+    const current = await request(app).get('/api/sessions/current');
+    assert.equal(register.status, 501);
+    assert.equal(login.status, 501);
+    assert.equal(current.status, 501);
+    assert.equal(current.body.status, 'error');
+  });
+});
+
+describe('Manejo de errores', () => {
+  test('responde 404 en rutas inexistentes', async () => {
+    const res = await request(app).get('/api/no-existe');
+    assert.equal(res.status, 404);
+    assert.equal(res.body.status, 'error');
+  });
+
+  test('responde 400 si el body no es JSON válido', async () => {
+    const res = await request(app)
+      .post('/api/sessions/login')
+      .set('Content-Type', 'application/json')
+      .send('{"mal json"');
+    assert.equal(res.status, 400);
+    assert.equal(res.body.status, 'error');
+  });
+});
